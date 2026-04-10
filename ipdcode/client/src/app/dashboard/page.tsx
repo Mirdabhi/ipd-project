@@ -866,13 +866,19 @@ const DashboardPage = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 300000, // 5 minutes timeout
       });
 
-      const [metrics, faceDetectionRate] = response.data;
-      setAudioData({
-        metrics,
-        faceDetectionRate
-      });
+      if (Array.isArray(response.data) && response.data.length === 2) {
+        const [metrics, faceDetectionRate] = response.data;
+        setAudioData({
+          metrics,
+          faceDetectionRate
+        });
+      } else {
+        console.error('Unexpected response format:', response.data);
+        alert('Error: Unexpected response format from server');
+      }
     } catch (error) {
       console.error('Error analyzing audio:', error);
       alert('Error analyzing audio-video sync. Please try again.');
@@ -1060,17 +1066,23 @@ const DashboardPage = () => {
       const formData = new FormData();
       formData.append('video', frameFile.file);
 
-      const response = await axios.post('http://localhost:5000/analyze_frame', formData, {
+      const response = await axios.post('http://127.0.0.1:5000/analyze_frame', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 300000, // 5 minutes timeout
       });
 
-      const [total_frames, abnormal_frames] = response.data;
-      setFrameData({
-        total_frames,
-        abnormal_frames
-      });
+      if (Array.isArray(response.data) && response.data.length === 2) {
+        const [total_frames, abnormal_frames] = response.data;
+        setFrameData({
+          total_frames,
+          abnormal_frames
+        });
+      } else {
+        console.error('Unexpected response format:', response.data);
+        alert('Error: Unexpected response format from server');
+      }
     } catch (error) {
       console.error('Error analyzing frames:', error);
       alert('Error analyzing video frames. Please try again.');
@@ -1243,17 +1255,23 @@ const DashboardPage = () => {
       const formData = new FormData();
       formData.append('video', distortionFile.file);
 
-      const response = await axios.post('http://localhost:5000/analyze_distortions', formData, {
+      const response = await axios.post('http://127.0.0.1:5000/analyze_distortions', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        timeout: 300000, // 5 minutes timeout
       });
 
-      const [total_frames, distorted_faces] = response.data;
-      setDistortionData({
-        total_frames,
-        distorted_faces
-      });
+      if (Array.isArray(response.data) && response.data.length === 2) {
+        const [total_frames, distorted_faces] = response.data;
+        setDistortionData({
+          total_frames,
+          distorted_faces
+        });
+      } else {
+        console.error('Unexpected response format:', response.data);
+        alert('Error: Unexpected response format from server');
+      }
     } catch (error) {
       console.error('Error analyzing face distortions:', error);
       alert('Error analyzing face distortions. Please try again.');

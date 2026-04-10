@@ -88,11 +88,12 @@ def analyze_distortions():
 
     # Process video using analyze_video_sentiment
     try:
-        result = detect_face_distortion(video_path)
-        print("DEBUG: Audio analysis successful")
-        return jsonify(result)
+        total_frames, distorted_faces = detect_face_distortion(video_path)
+        print("DEBUG: Face distortion analysis successful")
+        # Return as array [total_frames, distorted_faces]
+        return jsonify([total_frames, distorted_faces])
     except Exception as e:
-        print(f"ERROR: Audio analysis failed - {e}")
+        print(f"ERROR: Face distortion analysis failed - {e}")
         return jsonify({"error": "Failed to analyze video"}), 500
 
 
@@ -100,7 +101,7 @@ def analyze_distortions():
 
 @app.route("/analyze_frame", methods=["POST"])
 def analyze_frame():
-    print("DEBUG: Received request to /analyze_audio")
+    print("DEBUG: Received request to /analyze_frame")
 
     if "video" not in request.files:
         print("DEBUG: No file received in request.files")
@@ -116,11 +117,12 @@ def analyze_frame():
 
     # Process video using analyze_video_sentiment
     try:
-        result = detect_frame_anomalies(video_path)
-        print("DEBUG: Audio analysis successful")
-        return jsonify(result)
+        total_frames, abnormal_frames = detect_frame_anomalies(video_path)
+        print("DEBUG: Frame analysis successful")
+        # Return as array [total_frames, abnormal_frames]
+        return jsonify([total_frames, abnormal_frames])
     except Exception as e:
-        print(f"ERROR: Audio analysis failed - {e}")
+        print(f"ERROR: Frame analysis failed - {e}")
         return jsonify({"error": "Failed to analyze video"}), 500
 
 # ----------- FIXED VIDEO ANALYSIS AUDIO -------------
@@ -142,9 +144,13 @@ def analyze_audio_vid():
 
     # Process video using analyze_video_sentiment
     try:
-        result = analyze_video(video_path)
+        metrics, face_detection_rate = analyze_video(video_path)
         print("DEBUG: Audio analysis successful")
-        return jsonify(result)
+        # Convert numpy float to Python float if needed
+        if hasattr(face_detection_rate, 'item'):
+            face_detection_rate = face_detection_rate.item()
+        # Return as array [metrics_dict, face_detection_rate]
+        return jsonify([metrics, face_detection_rate])
     except Exception as e:
         print(f"ERROR: Audio analysis failed - {e}")
         return jsonify({"error": "Failed to analyze video"}), 500
