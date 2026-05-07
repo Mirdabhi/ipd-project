@@ -5,7 +5,7 @@ import subprocess
 import sys
 import cv2
 from deepface import DeepFace
-from moviepy import VideoFileClip
+from moviepy.editor import VideoFileClip
 import numpy as np
 import json
 

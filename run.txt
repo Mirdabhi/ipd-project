@@ -1,7 +1,15 @@
 server
-python3 -m venv venv
+cd "/Users/mirdabhi/Desktop/ipd project/ipd-project/ipdcode/server"
 source venv/bin/activate
 python app.py
 
+
 client 
+cd "/Users/mirdabhi/Desktop/ipd project/ipd-project/ipdcode/client"
 npm run dev
+
+
+
+cd "/Users/mirdabhi/Desktop/ipd project/ipd-project/ipdcode/server"
+source venv/bin/activate
+python app_minimal.py

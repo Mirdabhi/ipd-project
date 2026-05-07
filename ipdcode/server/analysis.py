@@ -6,7 +6,7 @@ import numpy as np
 from facenet_pytorch import MTCNN
 from torchvision import transforms
 from scipy.spatial.distance import cosine
-from moviepy import VideoFileClip
+from moviepy.editor import VideoFileClip
 from transformers import Wav2Vec2Processor, Wav2Vec2Model
 import mediapipe as mp
 import librosa

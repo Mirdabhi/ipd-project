@@ -8,7 +8,7 @@ from facenet_pytorch import MTCNN
 from PIL import Image
 import os
 import librosa
-from moviepy import VideoFileClip
+from moviepy.editor import VideoFileClip
 from transformers import Wav2Vec2Processor, Wav2Vec2Model
 import mediapipe as mp
 import matplotlib.pyplot as plt
